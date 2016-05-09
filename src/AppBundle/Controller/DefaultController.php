@@ -45,4 +45,27 @@ class DefaultController extends Controller
             'form' => $form->createView(),
         ]);
     }
+
+    /**
+     * @Route("/{code}", name="redirect")
+     *
+     * @param Request $request
+     * @param $code
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function redirectAction(Request $request, $code)
+    {
+        /** @var Link $link */
+        $link = $this->getDoctrine()
+            ->getRepository('AppBundle:Link')
+            ->find($code);
+
+        if (!$link) {
+            throw $this->createNotFoundException(
+                'No link found for code ' . $code
+            );
+        }
+
+        return $this->redirect($link->getUrl());
+    }
 }
