@@ -7,6 +7,7 @@ use AppBundle\Form\LinkType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class DefaultController extends Controller
 {
@@ -33,8 +34,8 @@ class DefaultController extends Controller
             $em->flush();
 
             $this->addFlash(
-                'notice',
-                'Your changes were saved!'
+                'link',
+                $this->generateUrl('redirect', ['code' => $link->getId()], UrlGeneratorInterface::ABSOLUTE_URL)
             );
 
             return $this->redirectToRoute('homepage');
